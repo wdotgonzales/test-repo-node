@@ -1,0 +1,287 @@
+PHASE 1 : 1-intro.js
+
+    I learned to run javascript code using node.
+    Example : "node app.js"
+
+
+PHASE 2 : 2-globals.js
+
+    I learned different GLOBALS variables.
+
+    Examples : 
+               * __dirname  -> This global variable returns the directory name of the current module. 
+                               It provides the absolute path of the directory containing the currently 
+                               executing file. For example, if your file is located at /home/user/project/app.js, 
+                               then __dirname will return /home/user/project.
+
+               * __filename -> This global variable returns the file name of the current module. It provides the 
+                               absolute path of the currently executing file. For example, if your file is located 
+                               at /home/user/project/app.js, then __filename will return /home/user/project/app.js.
+
+               * require    -> This global function is used to load modules in Node.js. It takes a string argument 
+                               that specifies the module to be loaded. Node.js will search for the module in the 
+                               node_modules folder and load it if found. For example, to load the express module, 
+                               you can use const express = require('express').
+
+               * module     -> This global object represents the current module. It provides a way to define and 
+                               export values from a module, which can then be used by other modules. For example, 
+                               to export a value from a module, you can use module.exports = value.
+
+               * process    -> This global object provides information about the current Node.js process. It provides 
+                               a way to access environment variables, command-line arguments, and the standard input 
+                               and output streams. It also has several methods for working with the process, such as 
+                               process.exit() to terminate the process and process.on() to handle process events.
+
+
+PHASE 3 : app.js , 4-names.js , 5-utils.js
+
+    In this phase we will be working with module & require,
+
+    * Module  -> We can use Module to EXPORT functions or variables to other files.
+
+          Example : module.exports = firstName;
+                    module.exports = { age , location };
+
+
+    * Require -> We can use Require to IMPORT function or variables from other files.
+
+          Example : const firstName = require('./path/to/file');
+                    console.log(firstName);
+
+
+
+
+PHASE 4 : app.js , 6-alternative-flavors.js
+
+    In this phase we will do the same thing in Phase 3 , but we will do the different way/syntax
+    on EXPORTING using Modules.
+
+    Examples : 
+         
+         * modules.exports.items = ['item1' , 'item2' , 'item3'];
+
+         * const person = {
+               name : 'Wilson Gonzales'
+           };
+
+           module.exports.myName = person;
+
+
+
+PHASE 5 : app.js , 7-mind-grenade.js
+
+     We didn't use any module.exports in 7-mind-grenade.js, instead we use required() 
+     directly in app.js. We can use this style/method , if we just run the code in 
+     7-mind-grenade.js (example: runCode();) then just call the file using require 
+     in app.js
+
+     Example : 
+
+       7-mind-grenade.js : 
+
+       const runCode = () => console.log('This code will run');
+       runCode();
+
+
+       app.js :
+
+       require('./7-mind-grenade.js');
+
+
+PHASE 6 :
+
+     Built-in Modules
+
+     We learned that there a different built-in Modules in NodeJS.
+
+
+     * Operating System (OS) Module -> 8-os-modules.js
+        
+        Example : 
+                  const os = require('os');
+                  const userInfo = os.userInfo();
+
+
+     * Path Module  -> 9-path-modules.js
+
+        Example : 
+                  const path = require('path');
+                  
+                  // Return a path without hard typing
+                  const filePath = path.join('/main_folder','sub_folder','file.txt');
+
+                  // -> \main_folder\sub_folder\file.txt
+                  console.log(filePath);
+                  
+                  -----------------------------------------------------------------------------------------
+
+                  // -> Absolute Path
+                  const abosulutePath = path.abosulutePath(__dirname,'content','subfolder','text.txt');
+
+                  // -> C:\Users\Asus\Desktop\NodeJS\content\subfolder\text.txt
+                  console.log(abosulutePath);
+
+
+
+     * File System Module (Sync / Synchronous) -> 10-fs-sync.js
+
+        Example : 
+
+                  // We will get readFileSync & writeFileSync method from File System Module.
+                  
+                  const { readFileSync, writeFileSync } = require('fs');
+
+
+                  /* We will use readFileSync , this will read the file. There Are two parameters:
+                     readFileSync(path/of/the/file , utf8) */
+
+                  const first = readFileSync('./content/first.txt', 'utf8');
+                  const second = readFileSync('./content/second.txt', 'utf8');
+
+
+                  /* writeFileSync -> once it detects that the file doesnt exit , it will create the file 
+                                   -> Parameters : writeFileSync( './path/to/create.txt' , 'content of the txt/file') */
+
+                  writeFileSync(
+                        './content/result-sync.txt',
+                        `Here is the result : ${first} , ${second}`,
+                  );
+
+
+
+     * File System Modules (Async / Asynchronous) -> 11-fs-async.js
+
+        This is the same we coded above but we will do it in the Asynchronous way. Here we will mostly use callbacks.
+
+        Example : 
+
+        const { readFile, writeFile } = require('fs');
+        
+        readFile('./content/first.txt' , 'utf8' , (err,result) => {
+        
+            if(err){
+                console.log(err)
+                return null;
+        }
+
+            const first = result;
+
+            readFile('./content/second.txt' , 'utf8' , (err , result) => {
+                if(err){
+                    console.log(err);    
+                    return null;
+            }
+
+                const second = result;
+
+                writeFile(
+                    './content/result-async.txt', 
+                    `Here is the async result: ${first} , ${second}`,
+                    () => (err , result) =>{
+                        if(err){
+                            console.log(err);
+                            return null;
+                        }
+                        console.log(result);                
+                    });
+             })
+         })
+
+
+ 
+     * BONUS : Synchronous vs Asynchronous Analogy
+
+             Synchronous  -> Prodecural / Step by Step 
+
+                             Ex: 1 -> 2 -> 3 -> 4
+
+             Asynchronous -> Not Procedural / First Come First Finish
+
+                             Ex : 1 ->
+                                  2 ->
+                                  3 -> 
+                                  4 -> 
+                    
+    
+     * HTTP Module
+
+       Example : 
+
+            // We will use HTTP Module using require()
+
+            const http = require('http');
+
+
+            /* The createServer() method takes a callback function that will be called every time the server receives a request.
+               The callback function takes two parameter:
+                - request  -> an object representing the HTTP request that was received.
+                - response -> an object representing the HTTP response that will be sent back to the client.  */
+
+            const server = http.createServer((request, response) => {
+
+                if (request.url === '/') {
+                    response.end("Welcome to our home page");
+                }
+
+                if (request.url === '/about') {
+                    response.end('Here is our short history');
+                }
+
+                response.end(`
+                <div style="text-align:center">
+                <h1> PAGE NOT FOUND </h1>
+                <p> We can't seem to find the page your are looking for </p>
+                <a href="/">Go Back Home</a>
+                </div>
+                `)
+
+             })
+
+
+             /* This code starts the HTTP server created using http.createServer() on port 5000. 
+                The listen() method is used to start the server listening for incoming requests 
+                on the specified port. Ex : localhost:5000 */
+
+            server.listen(5000);
+
+
+            
+PHASE 7 : NPM 
+
+   NPM (short for "Node Package Manager") is a package manager for the Node.js 
+   platform that allows developers to easily install and manage third-party packages 
+   and modules that can be used in their Node.js projects.
+
+   * Global Command , To know the NPM version
+      -> npm --version
+
+   * Installing JSON - You have to do this FIRST , before installing any package.
+      
+      2 Ways of Installing JSON : 
+        - Step by step , press enter to skip
+            -> npm init
+        
+        - Everything default
+            -> npm init - y  
+
+   * Local Dependency  - use it only in THIS particular project (most common used)
+      -> npm i <packageName>
+
+   * Global Dependency - use it in any project 
+      -> npm install -g <packageName>
+
+   * Example on using the package you installed : 
+
+        const _ = require('lodash');
+
+        const items = [1 , [2 , [3 , [4] ] ] ];
+        const newItems = _.flattenDeep(items);
+
+        console.log(newItems); 
+    
+   
+
+    
+
+
+
